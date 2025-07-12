@@ -48,7 +48,7 @@ const PostureApp = () => {
 
         try {
           const res = await axios.post(
-            "https://posture-etection-app.onrender.com/api/posture/analyze-frame",
+            "https://posture-python-app.onrender.com/analyze",
             formData,
             {
               headers: { "Content-Type": "multipart/form-data" },
