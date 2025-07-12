@@ -10,13 +10,12 @@ CORS(app)
 def analyze_pose():
     try:
         if 'file' not in request.files:
-            return jsonify({'error': 'No image uploaded'}), 400
+            return jsonify({'error': 'No file uploaded'}), 400
 
         image_file = request.files['file']
-        temp_path = os.path.join('temp_input.jpg')
+        temp_path = 'temp_input.jpg'
         image_file.save(temp_path)
 
-        # Call your existing pose_detector.py script
         result = subprocess.run(
             ['python', 'pose_detector.py', temp_path],
             capture_output=True,
@@ -26,9 +25,12 @@ def analyze_pose():
         os.remove(temp_path)
 
         if result.returncode != 0:
-            return jsonify({'error': 'Pose analysis failed', 'stderr': result.stderr}), 500
+            return jsonify({
+                'error': 'Pose analysis failed',
+                'stderr': result.stderr
+            }), 500
 
-        return jsonify(result=eval(result.stdout.strip()))
+        return jsonify(eval(result.stdout.strip()))
 
     except Exception as e:
         return jsonify({'error': str(e)}), 500
