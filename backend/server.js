@@ -5,7 +5,7 @@ import fs from 'fs';
 import { exec } from 'child_process';
 
 const app = express ();
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 
 exec('pip install -r backend/python/requirements.txt', (error, stdout, stderr) => {
   if (error) {
@@ -20,9 +20,16 @@ exec('pip install -r backend/python/requirements.txt', (error, stdout, stderr) =
 });
 
 //Middleware used
+const allowedOrigins = [
+  'http://localhost:5173',
+  'https://posture-etection-app.vercel.app',
+];
+
 app.use(cors({
-  origin: 'http://localhost:5173'
+  origin: allowedOrigins,
+  credentials: true,
 }));
+
 app.use(express.json());
 app.use('/uploads',express.static('uploads'));
 
