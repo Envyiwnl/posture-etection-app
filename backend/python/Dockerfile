@@ -4,6 +4,8 @@ WORKDIR /app
 COPY . /app
 
 RUN pip install --upgrade pip
+RUN pip install flask
 RUN pip install -r requirements.txt
 
-CMD ["python", "pose_detector.py"]
+EXPOSE 8000
+CMD ["python", "app.py"]
