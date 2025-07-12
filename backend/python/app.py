@@ -9,10 +9,10 @@ CORS(app)
 @app.route('/analyze', methods=['POST'])
 def analyze_pose():
     try:
-        if 'image' not in request.files:
+        if 'file' not in request.files:
             return jsonify({'error': 'No image uploaded'}), 400
 
-        image_file = request.files['image']
+        image_file = request.files['file']
         temp_path = os.path.join('temp_input.jpg')
         image_file.save(temp_path)
 
