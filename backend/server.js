@@ -2,22 +2,10 @@ import express from "express";
 import cors from 'cors';
 import postureRoutes from '../backend/routes/postureRoutes.js';
 import fs from 'fs';
-import { exec } from 'child_process';
 
 const app = express ();
 const PORT = process.env.PORT || 5000;
 
-exec('pip install -r backend/python/requirements.txt', (error, stdout, stderr) => {
-  if (error) {
-    console.error(`Error installing Python dependencies: ${error.message}`);
-    return;
-  }
-  if (stderr) {
-    console.error(`Python stderr: ${stderr}`);
-    return;
-  }
-  console.log(`Python dependencies installed:\n${stdout}`);
-});
 
 //Middleware used
 const allowedOrigins = [
