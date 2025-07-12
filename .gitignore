@@ -1,0 +1,13 @@
+# Node modules
+**/node_modules
+**/ffmpeg-static/ffmpeg.exe
+
+# Build outputs
+frontend/dist
+backend/__pycache__/
+backend/annotated_frames/
+backend/uploads/
+backend/outputs/
+
+# Environment variables
+.env
