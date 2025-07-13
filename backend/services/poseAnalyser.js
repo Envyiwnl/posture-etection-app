@@ -3,9 +3,10 @@ import path from "path";
 import { execFile } from "child_process";
 import fetch from "node-fetch";
 import FormData from "form-data";
+import ffmpegPath from "ffmpeg-static";
 
 // Path to ffmpeg executable
-const ffmpegPath = "ffmpeg";
+//const ffmpegPath = "ffmpeg";
 
 // Analyze video posture by extracting frames
 export const analyzeVideoPosture = async (videoPath) => {
