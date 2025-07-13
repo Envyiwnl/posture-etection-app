@@ -11,11 +11,13 @@ def analyze_pose():
     try:
         print("Request files:", request.files)
         print("Request content-type:", request.content_type)
-        
-        if 'file' not in request.files:
+
+        # Accept both 'frame' (from webcam) and 'file' (from video processing)
+        image_file = request.files.get('frame') or request.files.get('file')
+
+        if not image_file:
             return jsonify({'error': 'No file uploaded'}), 400
 
-        image_file = request.files['file']
         temp_path = 'temp_input.jpg'
         image_file.save(temp_path)
 
