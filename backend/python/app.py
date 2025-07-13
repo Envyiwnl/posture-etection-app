@@ -9,6 +9,9 @@ CORS(app)
 @app.route('/analyze', methods=['POST'])
 def analyze_pose():
     try:
+        print("Request files:", request.files)
+        print("Request content-type:", request.content_type)
+        
         if 'file' not in request.files:
             return jsonify({'error': 'No file uploaded'}), 400
 

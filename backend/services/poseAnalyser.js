@@ -71,6 +71,7 @@ export async function analyzeFramePosturePython(imagePath) {
     const response = await fetch("https://posture-python-app.onrender.com/analyze", {
       method: "POST",
       body: form,
+      headers: form.getHeaders(),
     });
 
     if (!response.ok) {
