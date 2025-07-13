@@ -69,7 +69,7 @@ export async function analyzeFramePosturePython(imagePath) {
   form.append("file", fs.createReadStream(imagePath));
 
   try {
-    const response = await fetch("https://posture-python-app.onrender.com/analyze", {
+    const response = await fetch("https://7723c1d66568.ngrok-free.app/analyze", {
       method: "POST",
       body: form,
       headers: form.getHeaders(),
