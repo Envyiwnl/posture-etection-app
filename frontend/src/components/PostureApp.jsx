@@ -44,7 +44,7 @@ const PostureApp = () => {
         if (!blob) return;
 
         const formData = new FormData();
-        formData.append("frame", blob, "webcam_frame.jpg");
+        formData.append("file", blob, "webcam_frame.jpg");
 
         try {
           const res = await axios.post(
