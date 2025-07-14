@@ -5,13 +5,10 @@ import fetch from "node-fetch";
 import FormData from "form-data";
 import ffmpegPath from "ffmpeg-static";
 
-// Path to ffmpeg executable
-//const ffmpegPath = "ffmpeg";
-
 // Analyze video posture by extracting frames
 export const analyzeVideoPosture = async (videoPath) => {
   const outputDir = path.join("uploads", "frames_" + Date.now());
-  fs.mkdirSync(outputDir);
+  fs.mkdirSync(outputDir, { recursive: true }); // Safely recursive creation
 
   const outputPattern = path.join(outputDir, "frame-%03d.jpg");
 
@@ -25,7 +22,7 @@ export const analyzeVideoPosture = async (videoPath) => {
       ["-i", videoPath, "-vf", "fps=1", outputPattern],
       async (error) => {
         if (error) {
-          console.error("FFmpeg error:", error);
+          console.error("❌ FFmpeg error:", error);
           return reject(error);
         }
 
@@ -47,6 +44,7 @@ export const analyzeVideoPosture = async (videoPath) => {
           const results = await Promise.all(framePromises);
           const summary = generateSummary(results);
 
+          // Cleanup
           fs.unlinkSync(videoPath);
           fs.rmSync(outputDir, { recursive: true, force: true });
 
@@ -55,7 +53,7 @@ export const analyzeVideoPosture = async (videoPath) => {
             frames: results,
           });
         } catch (cleanupErr) {
-          console.error("Post-processing or cleanup error:", cleanupErr);
+          console.error("❌ Post-processing error:", cleanupErr);
           reject(cleanupErr);
         }
       }
@@ -75,14 +73,20 @@ export async function analyzeFramePosturePython(imagePath) {
       headers: form.getHeaders(),
     });
 
-    if (!response.ok) {
-      throw new Error("Python API error");
-    }
+    const text = await response.text();
 
-    const result = await response.json();
-    return result;
+    try {
+      return JSON.parse(text);
+    } catch (jsonErr) {
+      console.error("❌ JSON parse error:", jsonErr);
+      console.error("Raw response from Python backend:", text);
+      return {
+        badPosture: false,
+        feedback: "Invalid JSON from analyzer",
+      };
+    }
   } catch (error) {
-    console.error("Fetch error:", error);
+    console.error("❌ Fetch error:", error);
     return {
       badPosture: false,
       feedback: "Error connecting to analyzer API",

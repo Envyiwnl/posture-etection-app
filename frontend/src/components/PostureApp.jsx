@@ -54,7 +54,8 @@ const PostureApp = () => {
               headers: { "Content-Type": "multipart/form-data" },
             }
           );
-          setWebcamFeedback(res.data.result);
+          setWebcamFeedback(res.data);
+          console.log("Webcam backend feedback:", res.data);
         } catch (err) {
           console.error("Webcam frame analysis error:", err);
         }
