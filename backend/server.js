@@ -1,6 +1,6 @@
 import express from "express";
 import cors from 'cors';
-import postureRoutes from '../backend/routes/postureRoutes.js';
+import postureRoutes from './routes/postureRoutes.js';
 import fs from 'fs';
 
 const app = express ();
