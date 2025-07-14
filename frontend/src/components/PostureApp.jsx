@@ -90,7 +90,7 @@ const PostureApp = () => {
     if (!selectedFile) return;
     setIsProcessing(true);
     const formData = new FormData();
-    formData.append("video", selectedFile);
+    formData.append("file", selectedFile);
 
     try {
       const res = await axios.post(
