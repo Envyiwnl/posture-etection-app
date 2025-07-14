@@ -100,7 +100,7 @@ const PostureApp = () => {
           headers: { "Content-Type": "multipart/form-data" },
         }
       );
-      setVideoAnalysis(res.data.result);
+      setVideoAnalysis(res.data);
       setOutputVisible(true);
     } catch (err) {
       console.error("Upload error:", err);
