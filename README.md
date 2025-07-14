@@ -40,7 +40,7 @@ postureapp/
 
 ## ⚙️ Setup Instructions
 
-git clone https://github.com/your-username/posture-detection-app.git
+git clone https://github.com/Envyiwnl/posture-detection-app.git
 cd postureapp
 
 Frontend Setup
