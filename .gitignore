@@ -11,3 +11,25 @@ backend/outputs/
 
 # Environment variables
 .env
+
+# Python
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.log
+
+# Flask temp
+temp_input.jpg
+temp_video.mp4
+frames/
+uploads/
+
+# Node
+node_modules/
+dist/
+
+# OS junk
+.DS_Store
+Thumbs.db

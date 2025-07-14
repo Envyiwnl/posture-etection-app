@@ -4,18 +4,19 @@ import cv2
 import mediapipe as mp
 import math
 
-"""Calculate angle between 3 points (a-b-c)"""
+# Calculate angle between 3 points (a-b-c)
 def calculate_angle(a, b, c):
     ba = [a[0] - b[0], a[1] - b[1]]
     bc = [c[0] - b[0], c[1] - b[1]]
-    dot_product = ba[0]*bc[0] + ba[1]*bc[1]
-    mag_ba = math.sqrt(ba[0]**2 + ba[1]**2)
-    mag_bc = math.sqrt(bc[0]**2 + bc[1]**2)
+    dot_product = ba[0] * bc[0] + ba[1] * bc[1]
+    mag_ba = math.sqrt(ba[0] ** 2 + ba[1] ** 2)
+    mag_bc = math.sqrt(bc[0] ** 2 + bc[1] ** 2)
     if mag_ba * mag_bc == 0:
         return 0
     angle = math.acos(dot_product / (mag_ba * mag_bc))
     return math.degrees(angle)
-"""Rules for detecting bad posture"""
+
+# Rules for detecting bad posture
 def is_back_bent(shoulder, hip, knee):
     angle = calculate_angle(shoulder, hip, knee)
     return angle, angle < 150
@@ -27,8 +28,7 @@ def is_neck_bent(ear, shoulder, hip):
 def is_knee_over_toe(knee, toe):
     return knee[0] > toe[0]
 
-"""Main function to evaluate posture"""
-
+# Evaluate posture based on keypoints
 def analyze_posture(landmarks, width, height):
     def get_coords(name):
         lm = landmarks[mp.solutions.pose.PoseLandmark[name].value]
@@ -100,14 +100,16 @@ def analyze_posture(landmarks, width, height):
         },
         "confidence": "High"
     }
-    
-    """Analysing Pose with MEdiaPipe """
 
+# Analyze image using MediaPipe
 def analyze_image_file(image_path, save_annotated=True):
     image = cv2.imread(image_path)
-    if image is None:
-        return { "badPosture": False, "feedback": "Image not found" }
-
+    if image is None or not hasattr(image, "shape"):
+        print(f"[ERROR] Failed to load image from path: {image_path}")
+        return { 
+        "badPosture": False, 
+        "feedback": f"Failed to load image from path: {image_path}" 
+        }
     height, width, _ = image.shape
     mp_pose = mp.solutions.pose
     pose = mp_pose.Pose(static_image_mode=True)
@@ -132,8 +134,7 @@ def analyze_image_file(image_path, save_annotated=True):
 
     return response
 
-"""Entry point for single image file analysis"""
-
+# Entry point for single image file analysis
 if __name__ == "__main__":
     if len(sys.argv) != 2:
         print(json.dumps({ "badPosture": False, "feedback": "No input image path" }))
